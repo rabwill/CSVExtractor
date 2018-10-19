@@ -70,9 +70,7 @@ namespace ERM.CSV.Extractor
                 }
             } while (key.KeyChar != 'x');
         }
-
-      
-
+        
         private static string ReadParamaeters(string promptMessage)
         {
             Console.Write(promptMessage);
