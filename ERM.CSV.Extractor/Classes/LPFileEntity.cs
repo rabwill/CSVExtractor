@@ -22,8 +22,8 @@ namespace ERM.CSV.Extractor.Classes
 
             _LPFileEntity = new LPFile
             {
-                MeterPointCode = Convert.ToDouble(values[0]),
-                SerialNumber = Convert.ToDouble(values[1]),
+                MeterPointCode = double.Parse(values[0]),
+                SerialNumber = double.Parse(values[1]),
                 PlantCode = Convert.ToString(values[2]),
                 DateAndTime = Convert.ToDateTime(values[3]),
                 DataType = Convert.ToString(values[4]),

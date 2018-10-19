@@ -25,11 +25,12 @@ namespace ERM.CSV.Extractor.Classes
             {
                 List<TOUFile> currentFileValues = new List<TOUFile>();
                 currentFileValues = File.ReadAllLines(file).Skip(1).Select(v => TOUEntity.GetTOUFileEntityByCSVDataRow(v)).ToList();
-                messages = ListHelper.ListProcessor(currentFileValues, file,Constants.ColumnName.Energy,_percentage);
+                string filename = StringHelper.GetFileNameFromPath(file);
+                messages = ListHelper.ListProcessor(currentFileValues, filename, Constants.ColumnName.Energy,_percentage);
 
             }
 
-            ConsolePrinter.PrintMessages(messages);
+            ConsolePrinter.PrintOutput(messages);
         }
 
 

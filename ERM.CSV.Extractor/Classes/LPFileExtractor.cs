@@ -29,7 +29,7 @@ namespace ERM.CSV.Extractor.Classes
                 string filename = StringHelper.GetFileNameFromPath(file);
                 messages = ListHelper.ListProcessor(currentFileValues, filename, Constants.ColumnName.DataValue, _percentage);
             }
-            ConsolePrinter.PrintMessages(messages);
+            ConsolePrinter.PrintOutput(messages);
         }
 
        

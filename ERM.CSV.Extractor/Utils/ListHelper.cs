@@ -10,7 +10,7 @@ namespace ERM.CSV.Extractor.Utils
     static class ListHelper
     {
         /// <summary>
-        /// Gets the property of a generic list based on the name passed
+        /// Using Reflection!! don't be alarmed but it  Gets the property of a generic list based on the name passed
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
@@ -22,7 +22,7 @@ namespace ERM.CSV.Extractor.Utils
             return t.GetProperty(name).GetValue(obj, null);
         }
         /// <summary>
-        /// Using Reflection to  Processes the list of extracted file items to calculate the business logic
+        /// Processes the list of extracted file items to calculate the business logic
         /// For each file, calculate the median value using a) the "Data Value" column for the "LP" file type or
         /// b) or the "Energy" column for the "TOU" file type;Find values that are x% above or below the median, and print to the console 
         /// </summary>
@@ -33,21 +33,36 @@ namespace ERM.CSV.Extractor.Utils
         /// <returns></returns>
         public static List<string> ListProcessor<T>(List<T> currentFileValues, string file, string CompareColumn,int percentage) where T : class
         {
+           
             List<string> messages = new List<string>();
-            var listAllDataValues = currentFileValues.Select(a => a.GetPropertyValue(CompareColumn)).ToList();
-            //calculate median using math helper
-            var median = listAllDataValues.GetMedian();
-            var percentofMedia = MathHelper.GetPercentofValue(median, percentage);
-            ///Rounding to 3 to calculate the above and below margin values
-            var above = Math.Round((percentofMedia + median), 3);
-            var below = Math.Round((median - percentofMedia), 3);
-            //Find values that are % above or below the median 
-            var selectConditionalValues = (from a in currentFileValues
-                where (a.GetPropertyValue(CompareColumn) != 0) && (Math.Round(a.GetPropertyValue(CompareColumn), 2) == above || (Math.Round(a.GetPropertyValue(CompareColumn), 2) == below))
-                select a).ToList();
-            //Formulate the messages to be printed for items that meet conditions
-            foreach (var lpFileValue in selectConditionalValues)
-                messages.Add($"For file {file} on datetime {lpFileValue.GetPropertyValue("DateAndTime")} - The median is {median} and the {percentage}% above or below value is {lpFileValue.GetPropertyValue(CompareColumn)} \n");
+            try
+            {
+                var listAllDataValues = currentFileValues.Select(a => a.GetPropertyValue(CompareColumn)).ToList();
+
+                //calculate median using math helper
+                var median = listAllDataValues.GetMedian();
+                var percentofMedia = MathHelper.GetPercentofValue(median, percentage);
+
+                ///Rounding to 3 to calculate the above and below margin values
+                var above = Math.Round((percentofMedia + median), 3);
+                var below = Math.Round((median - percentofMedia), 3);
+
+                //Find values that are % above or below the median 
+                var selectConditionalValues = (from a in currentFileValues
+                    where (a.GetPropertyValue(CompareColumn) != 0) &&
+                          (Math.Round(a.GetPropertyValue(CompareColumn), 2) == above ||
+                           (Math.Round(a.GetPropertyValue(CompareColumn), 2) == below))
+                    select a).ToList();
+
+                //Formulate the messages to be printed for items that meet conditions
+                foreach (var lpFileValue in selectConditionalValues)
+                    messages.Add(
+                        $"For file {file} on datetime {lpFileValue.GetPropertyValue("DateAndTime")} - The median is {median} and the {percentage}% above or below value is {lpFileValue.GetPropertyValue(CompareColumn)} \n");
+            }
+            catch (Exception ex)
+            {
+                ConsolePrinter.RoutineTryCatchLog(ex);
+            }
 
             return messages;
 

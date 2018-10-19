@@ -23,7 +23,7 @@ namespace ERM.CSV.Extractor.Utils
         public static decimal GetPercentofValue(decimal value,int percentage)
         {
             decimal divideByHundred = value / 100;
-            return decimal.Multiply(divideByHundred, percentage);
+                return decimal.Multiply(divideByHundred, percentage);
         }
     }
 }
