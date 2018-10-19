@@ -27,7 +27,7 @@ namespace ERM.CSV.Extractor.Classes
                 PlantCode = Convert.ToString(values[2]),
                 DateAndTime = Convert.ToDateTime(values[3]),
                 DataType = Convert.ToString(values[4]),
-                DataValue = Convert.ToDecimal(values[5]),
+                DataValue = Convert.ToDouble(values[5]),
                 Units = Convert.ToString(values[6]),
                 Status = Convert.ToString(values[7]),
             };

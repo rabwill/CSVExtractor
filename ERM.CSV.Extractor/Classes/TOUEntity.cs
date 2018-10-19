@@ -25,7 +25,7 @@ namespace ERM.CSV.Extractor.Classes
                     PlantCode = Convert.ToString(values[2]),
                     DateAndTime = Convert.ToDateTime(values[3]),
                     DataType = Convert.ToString(values[4]),
-                    Energy = Convert.ToDecimal(values[5]),
+                    Energy = double.Parse(values[5]),
                     MaximumDemand = double.Parse(values[6]),
                     TimeOfMaximumDemand = Convert.ToDateTime(values[7]),
                     Units = Convert.ToString(values[8]),

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ERM.CSV.Extractor.Utils
 {
-    static class MathHelper
+   public static class MathHelper
     {
         public static T GetMedian<T>(this IEnumerable<T> items)
         {
@@ -20,10 +20,10 @@ namespace ERM.CSV.Extractor.Utils
             return default(T);
         }
 
-        public static decimal GetPercentofValue(decimal value,int percentage)
+        public static double GetPercentofValue(double value,int percentage)
         {
-            decimal divideByHundred = value / 100;
-                return decimal.Multiply(divideByHundred, percentage);
+            double divideByHundred = value / 100;
+                return (divideByHundred * percentage);
         }
     }
 }

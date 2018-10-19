@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ERM.CSV.Extractor.Utils
 {
-    static class StringHelper
+    public static class StringHelper
     {
-        internal static string GetFileNameFromPath(string fullFilename)
+       public static string GetFileNameFromPath(string fullFilename)
         {
            return System.IO.Path.GetFileNameWithoutExtension(fullFilename);
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ERM.CSV.Extractor.Utils
 {
-    static class ListHelper
+   public static class ListHelper
     {
         /// <summary>
         /// Using Reflection!! don't be alarmed but it  Gets the property of a generic list based on the name passed
@@ -41,11 +41,11 @@ namespace ERM.CSV.Extractor.Utils
 
                 //calculate median using math helper
                 var median = listAllDataValues.GetMedian();
-                var percentofMedia = MathHelper.GetPercentofValue(median, percentage);
+                var percentofMedian = MathHelper.GetPercentofValue(median, percentage);
 
                 ///Rounding to 3 to calculate the above and below margin values
-                var above = Math.Round((percentofMedia + median), 3);
-                var below = Math.Round((median - percentofMedia), 3);
+                var above = Math.Round((percentofMedian + median), 3);
+                var below = Math.Round((median - percentofMedian), 3);
 
                 //Find values that are % above or below the median 
                 var selectConditionalValues = (from a in currentFileValues

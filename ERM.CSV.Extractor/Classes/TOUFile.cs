@@ -13,7 +13,7 @@ namespace ERM.CSV.Extractor.Classes
         public string PlantCode { get; set; }
         public DateTime DateAndTime { get; set; }
         public string DataType { get; set; }
-        public decimal Energy { get; set; }
+        public double Energy { get; set; }
         public double MaximumDemand { get; set; }
         public DateTime TimeOfMaximumDemand { get; set; }
         public string Units { get; set; }
