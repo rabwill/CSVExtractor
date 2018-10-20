@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
@@ -46,7 +47,7 @@ namespace ERM.CSV.Extractor.Tests
                 .OrderByDescending(filename => filename).First(w => w.Contains(Constants.FileType.LP));
             string currentFileValue = File.ReadAllLines(file).First();
             string[] values = currentFileValue.Split(',');
-            Assert.AreEqual("Data Value",values[5]);
+            Assert.AreEqual("Data Value", values[5]);
         }
         [TestMethod]
         public void check_if_tou_file_header_has_energy()
@@ -57,26 +58,34 @@ namespace ERM.CSV.Extractor.Tests
             string currentFileValue = File.ReadAllLines(file).First();
             string[] values = currentFileValue.Split(',');
             Assert.AreEqual("Energy", values[5]);
+
         }
         [TestMethod]
-        public void check_if_datavalue_is_decimal()
+        public void check_if_datavalue_is_double()
         {
             var file = Directory.EnumerateFiles(_filepath).OrderByDescending(filename => filename).First(w => w.Contains(Constants.FileType.LP));
-            string currentFileValue = File.ReadAllLines(file).Skip(1).First();
-            string[] values = currentFileValue.Split(',');
-            
-            Assert.IsTrue(decimal.TryParse(values[5], out decimal number));
+            List<string> currentFileValue = File.ReadAllLines(file).Skip(1).ToList();
+            Assert.IsNotNull(currentFileValue);
+            foreach (var filevalue in currentFileValue)
+            {
+                string[] values = filevalue.Split(',');
+                Assert.IsTrue(double.TryParse(values[5], out double number));
+            }
+           
         }
         [TestMethod]
         public void check_if_energy_is_decimal()
         {
-            var file = Directory
+            var files = Directory
                 .EnumerateFiles(_filepath)
                 .OrderByDescending(filename => filename).First(w => w.Contains(Constants.FileType.TOU));
-            string currentFileValue = File.ReadAllLines(file).Skip(1).First();
-            string[] values = currentFileValue.Split(',');
-          
-            Assert.IsTrue(decimal.TryParse(values[5], out decimal number));
+            List<string> currentFileValue = File.ReadAllLines(files).Skip(1).ToList();
+            Assert.IsNotNull(currentFileValue);
+            foreach (var filevalue in currentFileValue)
+            {
+                string[] values = filevalue.Split(',');
+                Assert.IsTrue(double.TryParse(values[5], out double number));
+            }
         }
         [TestMethod]
         public void check_if_lp_tou_files_have_dateandtime()

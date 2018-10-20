@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using ERM.CSV.Extractor.Common;
 using ERM.CSV.Extractor.Utils;
 
 namespace ERM.CSV.Extractor.Extensions
@@ -56,11 +58,11 @@ namespace ERM.CSV.Extractor.Extensions
                 //Formulate the messages to be printed for items that meet conditions
                 foreach (var lpFileValue in selectConditionalValues)
                     messages.Add(
-                        $"For file {file} on datetime {lpFileValue.GetPropertyValue("DateAndTime")} - the median is {median} and the {percentage}% above or below value is {lpFileValue.GetPropertyValue(compareColumn)} \n");
+                        $"For file {file} on datetime {lpFileValue.GetPropertyValue(Constants.ColumnName.DateandTime)} - the median is {median} and the {percentage}% above or below value is {lpFileValue.GetPropertyValue(compareColumn)} \n");
             }
             catch (Exception ex)
             {
-                ConsolePrinter.RoutineTryCatchLog(ex);
+                ConsolePrinter.RoutineTryCatchLog(ex, MethodBase.GetCurrentMethod().Name);
             }
 
             return messages;

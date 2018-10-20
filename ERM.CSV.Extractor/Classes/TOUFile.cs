@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ERM.CSV.Extractor.Classes
 {
-  internal class TOUFile
+  public class TOUFile
     {
         public double MeterPointCode { get; set; }
         public double SerialNumber { get; set; }

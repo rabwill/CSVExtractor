@@ -31,25 +31,25 @@ namespace ERM.CSV.Extractor.Utils
            else
            {
                Console.ForegroundColor = ConsoleColor.Green;
-               Console.Write("It's pretty lonely in here , get me some more data to process..");
+               Console.Write("It's pretty lonely in here , get me some more data to process.. \n");
             }
         }
 
         internal static void PrintRegularMessage(string message)
         {
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(message);
+            Console.Write($"{message} \n");
         }
         internal static void PrintError(string message)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("Oh snap!-"+message);
+            Console.Write($"Oh snap!-{message}\n");
         }
-        internal static void RoutineTryCatchLog(Exception ex)
+        internal static void RoutineTryCatchLog(Exception ex,string methodName)
         {
             PrintError(ex.Message);
-            LoggerHelper.LogError($"There has been an issue in {MethodBase.GetCurrentMethod()}- {ex.Message}");
-            Console.ReadKey();
+            LoggerHelper.LogError($"There has been an issue in {methodName}- {ex.Message} \n");
+         
         }
         
     }

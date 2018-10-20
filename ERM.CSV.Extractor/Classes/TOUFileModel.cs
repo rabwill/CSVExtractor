@@ -20,7 +20,7 @@ namespace ERM.CSV.Extractor.Classes
         /// <param name="percentage"></param>
         public void ExtractAndProcessFiles(string filePath, int percentage)
         {
-            LoggerHelper.LogInfo($"Processing the file to extract and print in {MethodBase.GetCurrentMethod()}");
+            LoggerHelper.LogInfo($"Processing the file in class TouFileModel to extract and print in {MethodBase.GetCurrentMethod()}");
             try
             {
                 var files = Directory.EnumerateFiles(filePath)
@@ -39,8 +39,8 @@ namespace ERM.CSV.Extractor.Classes
             }
             catch (Exception ex)
             {
-                ConsolePrinter.RoutineTryCatchLog(ex);
-                throw;
+                ConsolePrinter.RoutineTryCatchLog(ex, MethodBase.GetCurrentMethod().Name);
+               
             }
         }
     }

@@ -11,6 +11,7 @@
         {
             public static string DataValue = "DataValue";
             public static string Energy = "Energy";
+            public static string DateandTime = "DateAndTime";
         }
 
     }

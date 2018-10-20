@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ERM.CSV.Extractor.Classes
 {
-    internal class LPFile
+    public class LPFile
     {
         public double MeterPointCode { get; set; }
         public double SerialNumber { get; set; }
