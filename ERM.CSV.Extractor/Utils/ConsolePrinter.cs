@@ -34,7 +34,7 @@ namespace ERM.CSV.Extractor.Utils
                Console.Write("It's pretty lonely in here , get me some more data to process.. \n");
             }
         }
-
+    
         internal static void PrintRegularMessage(string message)
         {
             Console.ForegroundColor = ConsoleColor.White;
