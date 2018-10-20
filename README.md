@@ -20,7 +20,7 @@ Solution|Authors
 ERM.CSV.Extactor|Rabia Williams
 
 ## Configuration 
-e.g to run this app, add appsettings with keys, checkout an e.g below
+e.g to run this app, add appsettings with keys, checkout an e.g below. Fiel Path is actually the folder where the files are.
 
 FilePath|Percentage
 --------|-----------
@@ -36,9 +36,10 @@ D:/files|20
 
 ## Assumptions 
 
-- ###The requirement as understood from the summary is to print only the values nearly equal to the x% increase / x% decrease of the median value (not all values above x% of the median NOR all values below x% of median)###
+- *The requirement as understood from the summary is to print only the values nearly equal to the x% above the median / x% below of the median  (not all values above x% of the median NOR all values below x% of median)*
 
-- Created an interactive Console app for fun  < don't we all feel nerdy with a console apps with colours :) >
+- Created an interactive Console app  < don't we all feel nerdy with a console apps with colours :) >
+- The configurable path is the path to the folder in which the files are present (since multiple files can be read at one time)
 - The file names will always have either  `LP` OR `TOU` to represent what kind of information it gives
 - The files will always have a header and they are csv files at all times 
 - The files will be in the same system locally or in an equally accessible system where the console app is run
