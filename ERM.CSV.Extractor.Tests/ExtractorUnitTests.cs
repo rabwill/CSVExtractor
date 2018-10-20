@@ -12,7 +12,6 @@ namespace ERM.CSV.Extractor.Tests
     [TestClass]
     public class ExtractorUnitTests
     {
-        //private static List<MockFile> mockitems = new List<MockFile>();
         internal static List<MockFile> Mockitems{ get;set; }
         public ExtractorUnitTests()
         {
@@ -24,13 +23,9 @@ namespace ERM.CSV.Extractor.Tests
                 new MockFile() {
                     MockObject1 = "Object 21",
                     MockObject2 = "Object 22",
-
                 }
             };
-
         }
-
-       
 
         [TestMethod]
         public void check_fn_get_file_name_from_path()

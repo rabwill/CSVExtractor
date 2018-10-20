@@ -12,11 +12,8 @@ namespace ERM.CSV.Extractor.Tests
     [TestClass]
     public class CsvDataIntegrationTests
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         private readonly string _filepath;
         private readonly string _percentage;
-
         public  CsvDataIntegrationTests()
         {
             _filepath = ConfigurationManager.AppSettings["FilePath"];
