@@ -11,7 +11,7 @@ using ERM.CSV.Extractor.Common;
 
 namespace ERM.CSV.Extractor.Classes
 {
-    internal class TouFileModel : BaseFileModel<TOUFile>
+    public class TouFileModel : BaseFileModel<TOUFile>
     {
         /// <summary>
         /// Extracts files based on the type and process the data to finally print the messages for items that satisfy the business logic
@@ -26,8 +26,8 @@ namespace ERM.CSV.Extractor.Classes
             {
                 foreach (var file in GetFiles(filePath, Constants.FileType.TOU))
                 {
-                    var currentFileValues = GetValuesFromFile(file, TOUFile.GetTouFileItemByCsvDataRow);
-                    ConsolePrinter.PrintOutput(CheckAndPrintValuesThatFallWithinRange(currentFileValues, StringHelper.GetFileNameFromPath(file), percentage));
+                    var currentFileValues = GetValuesFromFile(file, TOUFile.MapCsvLineItemsToTouList);
+                    ConsolePrinter.PrintOutput(MapValuesFromFileAndPrintEligibleValues(percentage, StringHelper.GetFileNameFromPath(file), currentFileValues));
                 }
             }
             catch (Exception ex)
@@ -35,9 +35,24 @@ namespace ERM.CSV.Extractor.Classes
                 ConsolePrinter.RoutineTryCatchLog(ex, MethodBase.GetCurrentMethod().Name);
             }
         }
-
+        /// <summary>
+        /// Send processed data to be checked and printed- core logic, broken down for better testability
+        /// </summary>
+        /// <param name="percentage"></param>
+        /// <param name="file"></param>
+        /// <param name="currentFileValues"></param>
+        public List<string> MapValuesFromFileAndPrintEligibleValues(int percentage, string filename, List<TOUFile> currentFileValues) => CheckAndPrintValuesThatFallWithinRange(currentFileValues, filename, percentage);
+        /// <summary>
+        /// Energy is the key column to compare
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
         protected override double GetComparisonValue(TOUFile line) => line.Energy;
-
+        /// <summary>
+        /// Get data time for display purpose
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
         protected override DateTime GetDateTimeValue(TOUFile line) => line.DateAndTime;
     }
 

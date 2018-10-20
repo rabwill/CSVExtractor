@@ -9,6 +9,7 @@ namespace ERM.CSV.Extractor.Classes
 {
     public abstract class BaseFileModel<T> : IFileModel
     {
+       
         public abstract void ExtractAndProcessFiles(string filePath, int percentage);
 
         /// <summary>
@@ -38,7 +39,7 @@ namespace ERM.CSV.Extractor.Classes
         }
 
         /// <summary>
-        /// abstrat function to get a particular property which is to be compared
+        /// abstract of function to get a particular property which is to be compared
         /// </summary>
         /// <param name="line"></param>
         /// <returns></returns>
@@ -58,6 +59,7 @@ namespace ERM.CSV.Extractor.Classes
         /// <returns></returns>
         private IEnumerable<T> GetEligibleValuesToPrint(IEnumerable<T> lines, double median, double percentofMedian)
         {
+            //Checking the values which are not nearly zero and also falls in the range x% above or below
             return from a in lines.OrderBy(GetComparisonValue)
                 where !MathHelper.CheckNearlyEquals(GetComparisonValue(a), 0) &&
                       MathHelper.CheckNearlyEquals(Math.Abs(median-GetComparisonValue(a)), percentofMedian)
@@ -79,12 +81,10 @@ namespace ERM.CSV.Extractor.Classes
                 //calculate median using math helper
                 var median = currentFileValues.Select(GetComparisonValue).GetMedian();
                 var percentofMedian = MathHelper.CalculatePercentageValue(median, percentage);
-
                 //Find values that are x% above/below the median 
                 messages.AddRange(GetEligibleValuesToPrint(currentFileValues, median, percentofMedian)
-                    .Select(values => $"For file {file} on datetime {GetDateTimeValue(values)} - the median is {median} and the {percentage}% above/below value is {GetComparisonValue(values)} \n"));
-
-              }
+                    .Select(values => $"Filename: {file} Date/Time: {GetDateTimeValue(values)} Median: {median}  {percentage}% above/below Value: {GetComparisonValue(values)} \n"));
+            }
             catch (Exception ex)
             {
                 ConsolePrinter.RoutineTryCatchLog(ex, MethodBase.GetCurrentMethod().Name);

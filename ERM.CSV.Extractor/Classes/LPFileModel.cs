@@ -12,10 +12,11 @@ using log4net;
 
 namespace ERM.CSV.Extractor.Classes
 {
-    internal class LpFileModel : BaseFileModel<LPFile>
+    public class LpFileModel : BaseFileModel<LPFile>
     {
+       
         /// <summary>
-        /// Extracts files based on the type and process the data to finally print the messages for items that satisfy the business logic
+        /// Extracts files based on the type and process it
         /// </summary>
         /// <param name="filePath"></param>
         /// <param name="percentage"></param>
@@ -27,9 +28,10 @@ namespace ERM.CSV.Extractor.Classes
             {
                 foreach (var file in GetFiles(filePath, Constants.FileType.LP))
                 {
-                    var currentFileValues = GetValuesFromFile(file, LPFile.GetLpFileEntityByCsvDataRow);
-                    ConsolePrinter.PrintOutput(CheckAndPrintValuesThatFallWithinRange(currentFileValues, StringHelper.GetFileNameFromPath(file), percentage));
-                   }
+                    var currentFileValues = GetValuesFromFile(file, LPFile.MapCsvLineItemsToLpList);
+                    ConsolePrinter.PrintOutput(MapValuesFromFileAndPrintEligibleValues(percentage, StringHelper.GetFileNameFromPath(file), currentFileValues));
+                }
+                  
             }
             catch (Exception ex)
             {
@@ -37,8 +39,25 @@ namespace ERM.CSV.Extractor.Classes
             }
         }
 
+        /// <summary>
+        /// Send processed data to be checked and printed- core logic, broken down for better testability
+        /// </summary>
+        /// <param name="percentage"></param>
+        /// <param name="file"></param>
+        /// <param name="currentFileValues"></param>
+        public List<string> MapValuesFromFileAndPrintEligibleValues(int percentage, string filename,List<LPFile> currentFileValues)=>CheckAndPrintValuesThatFallWithinRange(currentFileValues, filename, percentage);
+       
+        /// <summary>
+        /// Data Value is the key column to compare
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
         protected override double GetComparisonValue(LPFile line) => line.DataValue;
-    
+        /// <summary>
+        /// Get data time for display purpose
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
         protected override DateTime GetDateTimeValue(LPFile line)=>line.DateAndTime;
 
       

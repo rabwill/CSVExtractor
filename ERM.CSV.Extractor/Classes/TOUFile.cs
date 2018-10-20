@@ -24,7 +24,7 @@ namespace ERM.CSV.Extractor.Classes
         public DateTime BillingResetDateTime { get; set; }
         public string Rate { get; set; }
 
-        internal static TOUFile GetTouFileItemByCsvDataRow(string csvLine)
+        internal static TOUFile MapCsvLineItemsToTouList(string csvLine)
         {
             string[] values = csvLine.Split(',');
             var touItem = new TOUFile

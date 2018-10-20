@@ -17,7 +17,7 @@ namespace ERM.CSV.Extractor
 {
     class Program
     {
-      //todo: create a controller if needed to use for micro services and convert the console app to it
+      
         public static string FilePath { get; private set; }
         public static int Percentage { get; private set; }
 

@@ -74,7 +74,7 @@ namespace ERM.CSV.Extractor.Tests
            
         }
         [TestMethod]
-        public void check_if_energy_is_decimal()
+        public void check_if_energy_is_double()
         {
             var files = Directory
                 .EnumerateFiles(_filepath)

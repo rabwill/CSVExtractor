@@ -14,19 +14,17 @@ namespace ERM.CSV.Extractor.Tests
     [TestClass]
     public class ExtractorUnitTests
     {
-        internal static List<MockFile> Mockitems{ get;set; }
-        public ExtractorUnitTests()
+        [TestMethod]
+        public void Check_Eligible_Values_For_LP_Items()
         {
-             Mockitems = new List<MockFile>(){
-                new MockFile() {
-                    MockObject1 = "Object 11",
-                    MockObject2 = "Object 11",
-                },
-                new MockFile() {
-                    MockObject1 = "Object 21",
-                    MockObject2 = "Object 22",
-                }
-            };
+            LpFileModel lp=new LpFileModel();
+            Assert.IsNotNull(lp.MapValuesFromFileAndPrintEligibleValues(20, "LPFile", MockFile.GetMockLpFileData()));
+        }
+        [TestMethod]
+        public void Check_Eligible_Values_For_TOU_Items()
+        {
+            TouFileModel tou = new TouFileModel();
+            Assert.IsNotNull(tou.MapValuesFromFileAndPrintEligibleValues(20, "TOUFile", MockFile.GetMockTouFileData()));
         }
 
         [TestMethod]
@@ -47,29 +45,7 @@ namespace ERM.CSV.Extractor.Tests
             Assert.AreEqual(3,median);
         }
 
-        [TestMethod]
-        public void check_twenty_percent_increase_from_median()
-        {
-            double[] values = { 1, 2, 3, 2.5,4 };
-            List<double> listvalues = values.Select(i => Convert.ToDouble(i)).ToList();
-            var median = listvalues.GetMedian();
-            var percentofMedian = MathHelper.CalculatePercentageValue(median, 20);
-            var above = Math.Round((percentofMedian + median), 3);
-            Assert.AreEqual(2.5, median);
-            Assert.AreEqual(above,3);
-        }
-        [TestMethod]
-        public void check_twenty_percent_decrease_from_median()
-        {
-            double[] values = { 1, 2, 3, 2.5, 4 };
-
-            List<double> listvalues = values.Select(i => Convert.ToDouble(i)).ToList();
-            var median = listvalues.GetMedian();
-            var percentofMedian = MathHelper.CalculatePercentageValue(median, 20);
-            var above = Math.Round((median - percentofMedian), 3);
-            Assert.AreEqual(2.5, median);
-            Assert.AreEqual(above, 2);
-        }
+      
         [TestMethod]
         public void check_datavalue_in_lp_class()
         {

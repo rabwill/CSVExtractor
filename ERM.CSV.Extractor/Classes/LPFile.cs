@@ -23,7 +23,7 @@ namespace ERM.CSV.Extractor.Classes
         public string Status { get; set; }
 
 
-        internal static LPFile GetLpFileEntityByCsvDataRow(string csvLine)
+        internal static LPFile MapCsvLineItemsToLpList(string csvLine)
         {
             string[] values = csvLine.Split(',');
             var lpfileItem = new LPFile
