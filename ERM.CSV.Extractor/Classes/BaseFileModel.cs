@@ -11,6 +11,12 @@ namespace ERM.CSV.Extractor.Classes
     {
         public abstract void ExtractAndProcessFiles(string filePath, int percentage);
 
+        /// <summary>
+        /// The function parses the file to read the line items skipping the header
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="creator"></param>
+        /// <returns></returns>
         protected List<T> GetValuesFromFile(string file, Func<string, T> creator)
         {
             return File.ReadAllLines(file)
@@ -18,9 +24,12 @@ namespace ERM.CSV.Extractor.Classes
                 .Select(creator)
                 .ToList();
         }
-
-        protected static string GetFileNameFromPath(string fullFilename) => Path.GetFileNameWithoutExtension(fullFilename);
-
+       /// <summary>
+       /// Gets file from path based on what type of file is to be considered for processing
+       /// </summary>
+       /// <param name="filePath"></param>
+       /// <param name="fileType"></param>
+       /// <returns></returns>
         protected IEnumerable<string> GetFiles(string filePath, string fileType)
         {
             return Directory.EnumerateFiles(filePath)
@@ -28,19 +37,40 @@ namespace ERM.CSV.Extractor.Classes
                 .Where(w => w.Contains(fileType));
         }
 
-
+        /// <summary>
+        /// abstrat function to get a particular property which is to be compared
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
         protected abstract double GetComparisonValue(T line);
-
+        /// <summary>
+        /// Get dateTime value
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
         protected abstract DateTime GetDateTimeValue(T line);
-
-        private IEnumerable<T> GetEligibleValuesTooPrint(IEnumerable<T> lines, double median, double percentofMedian)
+        /// <summary>
+        /// Gets the list of all items above or below the range
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <param name="median"></param>
+        /// <param name="percentofMedian"></param>
+        /// <returns></returns>
+        private IEnumerable<T> GetEligibleValuesToPrint(IEnumerable<T> lines, double median, double percentofMedian)
         {
             return from a in lines.OrderBy(GetComparisonValue)
                 where !MathHelper.CheckNearlyEquals(GetComparisonValue(a), 0) &&
                       MathHelper.CheckNearlyEquals(Math.Abs(median-GetComparisonValue(a)), percentofMedian)
                    select a;
         }
-
+        /// <summary>
+        ///
+        /// Core funtion that gets the eligible range list and prints them
+        /// </summary>
+        /// <param name="currentFileValues"></param>
+        /// <param name="file"></param>
+        /// <param name="percentage"></param>
+        /// <returns></returns>
         public List<string> CheckAndPrintValuesThatFallWithinRange(List<T> currentFileValues, string file, int percentage)
         {
             var messages = new List<string>();
@@ -51,7 +81,7 @@ namespace ERM.CSV.Extractor.Classes
                 var percentofMedian = MathHelper.CalculatePercentageValue(median, percentage);
 
                 //Find values that are x% above/below the median 
-                messages.AddRange(GetEligibleValuesTooPrint(currentFileValues, median, percentofMedian)
+                messages.AddRange(GetEligibleValuesToPrint(currentFileValues, median, percentofMedian)
                     .Select(values => $"For file {file} on datetime {GetDateTimeValue(values)} - the median is {median} and the {percentage}% above/below value is {GetComparisonValue(values)} \n"));
 
               }

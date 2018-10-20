@@ -27,7 +27,7 @@ namespace ERM.CSV.Extractor.Classes
                 foreach (var file in GetFiles(filePath, Constants.FileType.TOU))
                 {
                     var currentFileValues = GetValuesFromFile(file, TOUFile.GetTouFileItemByCsvDataRow);
-                    ConsolePrinter.PrintOutput(CheckAndPrintValuesThatFallWithinRange(currentFileValues, GetFileNameFromPath(file), percentage));
+                    ConsolePrinter.PrintOutput(CheckAndPrintValuesThatFallWithinRange(currentFileValues, StringHelper.GetFileNameFromPath(file), percentage));
                 }
             }
             catch (Exception ex)
