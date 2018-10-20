@@ -28,34 +28,20 @@ namespace ERM.CSV.Extractor.Classes
                 .Where(w => w.Contains(fileType));
         }
 
-        protected double GetMedian(IEnumerable<double> values)
-        {
-            return values.GetMedian();
-        }
 
         protected abstract double GetComparisonValue(T line);
 
         protected abstract DateTime GetDateTimeValue(T line);
 
-        private IEnumerable<T> GetValuesAboveThreshold(IEnumerable<T> lines, double median, double percentofMedian)
+        private IEnumerable<T> GetEligibleValuesTooPrint(IEnumerable<T> lines, double median, double percentofMedian)
         {
-            var above = percentofMedian + median;
-
             return from a in lines.OrderBy(GetComparisonValue)
-                   where !MathHelper.CheckForZero(GetComparisonValue(a)) && GetComparisonValue(a) > above
+                where !MathHelper.CheckNearlyEquals(GetComparisonValue(a), 0) &&
+                      MathHelper.CheckNearlyEquals(median - GetComparisonValue(a), percentofMedian)
                    select a;
         }
 
-        private IEnumerable<T> GetValuesBelowThreshold(IEnumerable<T> lines, double median, double percentofMedian)
-        {
-            var below = (median - percentofMedian);
-
-            return from a in lines.OrderBy(GetComparisonValue)
-                   where !MathHelper.CheckForZero(GetComparisonValue(a)) && GetComparisonValue(a) < below
-                   select a;
-        }
-
-        public List<string> CheckAndPrintValuesThatFallWithinRange(IEnumerable<T> currentFileValues, string file, int percentage)
+        public List<string> CheckAndPrintValuesThatFallWithinRange(List<T> currentFileValues, string file, int percentage)
         {
             var messages = new List<string>();
             try
@@ -64,15 +50,11 @@ namespace ERM.CSV.Extractor.Classes
                 var median = currentFileValues.Select(GetComparisonValue).GetMedian();
                 var percentofMedian = MathHelper.CalculatePercentageValue(median, percentage);
 
-                //Find values that are x% above the median 
-                messages.AddRange(GetValuesAboveThreshold(currentFileValues, median, percentofMedian)
-                    .Select(values => $"For file {file} on datetime {GetDateTimeValue(values)} - the median is {median} and the {percentage}% above value is {GetComparisonValue(values)} \n"));
+                //Find values that are x% above/below the median 
+                messages.AddRange(GetEligibleValuesTooPrint(currentFileValues, median, percentofMedian)
+                    .Select(values => $"For file {file} on datetime {GetDateTimeValue(values)} - the median is {median} and the {percentage}% above/below value is {GetComparisonValue(values)} \n"));
 
-                //Find values that are x% below the median 
-
-                messages.AddRange(GetValuesBelowThreshold(currentFileValues, median, percentofMedian)
-                    .Select(values => $"For file {file} on datetime {GetDateTimeValue(values)} - the median is {median} and the {percentage}%  below value is {GetComparisonValue(values)} \n"));
-            }
+              }
             catch (Exception ex)
             {
                 ConsolePrinter.RoutineTryCatchLog(ex, MethodBase.GetCurrentMethod().Name);

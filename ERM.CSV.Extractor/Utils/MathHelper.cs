@@ -26,6 +26,6 @@ namespace ERM.CSV.Extractor.Utils
             double divideByHundred = value / 100;
                 return (divideByHundred * percentage);
         }
-        public static bool CheckForZero(double value) => Math.Abs(value) < .0001;
+        public static bool CheckNearlyEquals(double value1,double value2) => Math.Abs(value1-value2) < (.0001);
     }
 }
