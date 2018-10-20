@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -48,17 +49,25 @@ namespace ERM.CSV.Extractor.Extensions
                 var above = Math.Round((percentofMedian + median), 3);
                 var below = Math.Round((median - percentofMedian), 3);
 
-                //Find values that are % above or below the median 
-                var selectConditionalValues = (from a in currentFileValues
+                //Find values that are x% above the median 
+               IEnumerable<T> aboveMedianList = (from a in currentFileValues
                     where (a.GetPropertyValue(compareColumn) != 0) &&
-                          (Math.Round(a.GetPropertyValue(compareColumn), 2) == above ||
-                           (Math.Round(a.GetPropertyValue(compareColumn), 2) == below))
+                          (Math.Round(a.GetPropertyValue(compareColumn),3) >= above)
+                    select a).ToList();
+            
+                foreach (var values in aboveMedianList)
+                    messages.Add(
+                        $"For file {file} on datetime {values.GetPropertyValue(Constants.ColumnName.DateandTime)} - the median is {median} and the {percentage}% above value is {values.GetPropertyValue(compareColumn)} \n");
+               
+                //Find values that are x% below the median 
+                IEnumerable<T> belowMedianList = (from a in currentFileValues
+                    where (a.GetPropertyValue(compareColumn) != 0) &&
+                          (Math.Round(a.GetPropertyValue(compareColumn), 3) <= below)
                     select a).ToList();
 
-                //Formulate the messages to be printed for items that meet conditions
-                foreach (var lpFileValue in selectConditionalValues)
+                foreach (var values in belowMedianList)
                     messages.Add(
-                        $"For file {file} on datetime {lpFileValue.GetPropertyValue(Constants.ColumnName.DateandTime)} - the median is {median} and the {percentage}% above or below value is {lpFileValue.GetPropertyValue(compareColumn)} \n");
+                        $"For file {file} on datetime {values.GetPropertyValue(Constants.ColumnName.DateandTime)} - the median is {median} and the {percentage}%  below value is {values.GetPropertyValue(compareColumn)} \n");
             }
             catch (Exception ex)
             {
