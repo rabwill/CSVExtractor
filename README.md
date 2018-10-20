@@ -28,12 +28,15 @@ D:/files|20
 
 ## Features
 
-- Works
+- Works!
+- Scalable to more file types
 - Logs <Find them in `bin\Debug\Logs`>
 - Tests  
 
 
 ## Assumptions 
+
+- ###The requirement as understood from the summary is to print only the values nearly equal to the x% increase / x% decrease of the median value (not all values above x% of the median NOR all values below x% of median)###
 
 - Created an interactive Console app for fun  < don't we all feel nerdy with a console apps with colours :) >
 - The file names will always have either  `LP` OR `TOU` to represent what kind of information it gives
@@ -41,7 +44,7 @@ D:/files|20
 - The files will be in the same system locally or in an equally accessible system where the console app is run
 - The file header order will be `MeterPoint Code,Serial Number,Plant Code,Date/Time,Data Type,Data Value,Units,Status` for `LP` files
 - The file header order will be `MeterPoint Code,Serial Number,Plant Code,Date/Time,Data Type,Energy,Maximum Demand,Time of Max Demand,Units,Status,Period,DLS Active,Billing Reset Count,Billing Reset Date/Time,Rate` for `TOU` files
-
+- The precision is set to .0001 for Math.Abs
 
 ## Disclaimer
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT. In short use at your own risk !!!**
