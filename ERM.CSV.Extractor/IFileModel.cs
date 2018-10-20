@@ -9,5 +9,7 @@ namespace ERM.CSV.Extractor
     interface IFileModel
     {
         void ExtractAndProcessFiles(string filePath,int percentage);
+
+      
     }
 }

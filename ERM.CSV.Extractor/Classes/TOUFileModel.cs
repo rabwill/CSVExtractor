@@ -7,42 +7,38 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using ERM.CSV.Extractor.Common;
-using ERM.CSV.Extractor.Extensions;
+
 
 namespace ERM.CSV.Extractor.Classes
 {
-    internal class TouFileModel : IFileModel
+    internal class TouFileModel : BaseFileModel<TOUFile>
     {
         /// <summary>
         /// Extracts files based on the type and process the data to finally print the messages for items that satisfy the business logic
         /// </summary>
         /// <param name="filePath"></param>
         /// <param name="percentage"></param>
-        public void ExtractAndProcessFiles(string filePath, int percentage)
+
+        public override void ExtractAndProcessFiles(string filePath, int percentage)
         {
-            LoggerHelper.LogInfo($"Processing the file in class TouFileModel to extract and print in {nameof(ExtractAndProcessFiles)}");
+            LoggerHelper.LogInfo($"Processing the file in class LpFileModel to extract and print in {nameof(ExtractAndProcessFiles)}");
             try
             {
-                var files = Directory.EnumerateFiles(filePath)
-                    .OrderByDescending(filename => filename).Where(w => w.Contains(Constants.FileType.TOU)).ToList();
-                var messages = new List<string>();
-                foreach (var file in files)
+                foreach (var file in GetFiles(filePath, Constants.FileType.TOU))
                 {
-                    var currentFileValues = File.ReadAllLines(file).Skip(1).Select(TOUFile.GetTouFileItemByCsvDataRow)
-                        .ToList();
-                    string filename = StringHelper.GetFileNameFromPath(file);
-                    messages = FileExtensions.CheckAndPrintValuesThatFallWithinRange(currentFileValues, filename,
-                        Constants.ColumnName.Energy, percentage);
+                    var currentFileValues = GetValuesFromFile(file, TOUFile.GetTouFileItemByCsvDataRow);
+                    ConsolePrinter.PrintOutput(CheckAndPrintValuesThatFallWithinRange(currentFileValues, GetFileNameFromPath(file), percentage));
                 }
-
-                ConsolePrinter.PrintOutput(messages);
             }
             catch (Exception ex)
             {
-                ConsolePrinter.RoutineTryCatchLog(ex, nameof(ExtractAndProcessFiles));
-               
+                ConsolePrinter.RoutineTryCatchLog(ex, MethodBase.GetCurrentMethod().Name);
             }
         }
+
+        protected override double GetComparisonValue(TOUFile line) => line.Energy;
+
+        protected override DateTime GetDateTimeValue(TOUFile line) => line.DateAndTime;
     }
 
 }

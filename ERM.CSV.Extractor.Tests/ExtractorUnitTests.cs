@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using ERM.CSV.Extractor.Classes;
-using ERM.CSV.Extractor.Extensions;
+
 using ERM.CSV.Extractor.Tests.Classes;
 using ERM.CSV.Extractor.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -36,12 +36,7 @@ namespace ERM.CSV.Extractor.Tests
             string filename = StringHelper.GetFileNameFromPath(fileFullname);
             Assert.AreEqual(filename, "LP_210095893_20150901T011608049");
         }
-        [TestMethod]
-        public void check_Get_Property_function_for_class()
-        {
-            var listAllDataValues = Mockitems.Select(a => a.GetPropertyValue("MockObject1")).ToList();
-            Assert.IsNotNull(listAllDataValues);
-        }
+       
         [TestMethod]
         public void check_median_from_list()
         {

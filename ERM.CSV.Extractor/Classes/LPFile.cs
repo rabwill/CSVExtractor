@@ -8,6 +8,11 @@ namespace ERM.CSV.Extractor.Classes
 {
     public class LPFile
     {
+        public LPFile()
+        {
+            
+        }
+
         public double MeterPointCode { get; set; }
         public double SerialNumber { get; set; }
         public string PlantCode { get; set; }
