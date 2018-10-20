@@ -35,7 +35,7 @@ namespace ERM.CSV.Extractor.Classes
             }
             catch (Exception ex)
             {
-                ConsolePrinter.RoutineTryCatchLog(ex, MethodBase.GetCurrentMethod().Name);
+                ConsolePrinter.RoutineTryCatchLog(ex, nameof(ExtractAndProcessFiles));
             }
         }
 

@@ -67,7 +67,7 @@ namespace ERM.CSV.Extractor.Classes
         }
         /// <summary>
         ///
-        /// Core funtion that gets the eligible range list and prints them
+        /// Core function that gets the eligible range list and prints them
         /// </summary>
         /// <param name="currentFileValues"></param>
         /// <param name="file"></param>
