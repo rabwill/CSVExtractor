@@ -71,7 +71,7 @@ namespace ERM.CSV.Extractor.Extensions
             }
             catch (Exception ex)
             {
-                ConsolePrinter.RoutineTryCatchLog(ex, MethodBase.GetCurrentMethod().Name);
+                ConsolePrinter.RoutineTryCatchLog(ex, nameof(CheckAndPrintValuesThatFallWithinRange));
             }
 
             return messages;
