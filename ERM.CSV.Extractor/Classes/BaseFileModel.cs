@@ -83,7 +83,7 @@ namespace ERM.CSV.Extractor.Classes
                 var percentofMedian = MathHelper.CalculatePercentageValue(median, percentage);
                 //Find values that are x% above/below the median 
                 messages.AddRange(GetEligibleValuesToPrint(currentFileValues, median, percentofMedian)
-                    .Select(values => $"Filename: {file} Date/Time: {GetDateTimeValue(values)} Median: {median}  {percentage}% above/below Value: {GetComparisonValue(values)} \n"));
+                    .Select(values => $"{file}  {GetDateTimeValue(values)}  {GetComparisonValue(values)}   {median}   \n"));
             }
             catch (Exception ex)
             {
