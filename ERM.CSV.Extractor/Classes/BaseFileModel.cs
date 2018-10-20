@@ -37,7 +37,7 @@ namespace ERM.CSV.Extractor.Classes
         {
             return from a in lines.OrderBy(GetComparisonValue)
                 where !MathHelper.CheckNearlyEquals(GetComparisonValue(a), 0) &&
-                      MathHelper.CheckNearlyEquals(median - GetComparisonValue(a), percentofMedian)
+                      MathHelper.CheckNearlyEquals(Math.Abs(median-GetComparisonValue(a)), percentofMedian)
                    select a;
         }
 
