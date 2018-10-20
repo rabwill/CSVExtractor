@@ -46,13 +46,13 @@ namespace ERM.CSV.Extractor.Extensions
                 var percentofMedian = MathHelper.CalculatePercentageValue(median, percentage);
 
                 //Rounding to 3 to calculate the above and below margin values
-                var above = Math.Round((percentofMedian + median), 3);
-                var below = Math.Round((median - percentofMedian), 3);
+                var above = (percentofMedian + median);
+                var below = (median - percentofMedian);
 
                 //Find values that are x% above the median 
-               IEnumerable<T> aboveMedianList = (from a in currentFileValues
-                    where (a.GetPropertyValue(compareColumn) != 0) &&
-                          (Math.Round(a.GetPropertyValue(compareColumn),3) >= above)
+               IEnumerable<T> aboveMedianList = (from a in currentFileValues.OrderBy(col => col.GetPropertyValue(compareColumn))
+                                                 where (a.GetPropertyValue(compareColumn) != 0) &&
+                          (a.GetPropertyValue(compareColumn) >= above)
                     select a).ToList();
             
                 foreach (var values in aboveMedianList)
@@ -60,9 +60,9 @@ namespace ERM.CSV.Extractor.Extensions
                         $"For file {file} on datetime {values.GetPropertyValue(Constants.ColumnName.DateandTime)} - the median is {median} and the {percentage}% above value is {values.GetPropertyValue(compareColumn)} \n");
                
                 //Find values that are x% below the median 
-                IEnumerable<T> belowMedianList = (from a in currentFileValues
-                    where (a.GetPropertyValue(compareColumn) != 0) &&
-                          (Math.Round(a.GetPropertyValue(compareColumn), 3) <= below)
+                IEnumerable<T> belowMedianList = (from a in currentFileValues.OrderBy(col=>col.GetPropertyValue(compareColumn))
+                                                  where (a.GetPropertyValue(compareColumn) != 0) &&
+                          (a.GetPropertyValue(compareColumn) <= below)
                     select a).ToList();
 
                 foreach (var values in belowMedianList)
