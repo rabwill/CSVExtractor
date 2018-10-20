@@ -17,7 +17,7 @@ namespace ERM.CSV.Extractor
 {
     class Program
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+      
         public static string FilePath { get; private set; }
         public static int Percentage { get; private set; }
 
@@ -34,7 +34,7 @@ namespace ERM.CSV.Extractor
              */
            
             XmlConfigurator.Configure(new FileInfo("log4net.config"));
-            Log.Info($"Configured path for extracting the csv files is- {FilePath} and  Percentage is {Percentage} \n");
+            LoggerHelper.LogInfo($"Configured path for extracting the csv files is- {FilePath} and  Percentage is {Percentage} \n");
             Console.WriteLine($"Configured path for extracting the csv files is- {FilePath} \n");
             Console.WriteLine($"This tool provides functionality to extract LP and TOU files, find values that are {Percentage}% above or below the median, and print to the console  \n");
        
@@ -45,28 +45,28 @@ namespace ERM.CSV.Extractor
             try
             {
                 Console.WriteLine("Please Select");
-                Console.WriteLine("\t 1 - Extract only LP files");
-                Console.WriteLine("\t 2 - Extract only TOU files");
-                Console.WriteLine("\t 3 - Extract all files");
+                Console.WriteLine("\t 1 - ExtractAndProcessFiles only LP files");
+                Console.WriteLine("\t 2 - ExtractAndProcessFiles only TOU files");
+                Console.WriteLine("\t 3 - ExtractAndProcessFiles all files");
                 Console.WriteLine("\t x - Exit");
 
                 ConsoleKeyInfo key;
                 do
                 {
                     key = Console.ReadKey(true);
-                    Log.Info($"Run extraction");
+                    LoggerHelper.LogInfo($"Run extraction");
                     switch (key.KeyChar)
                     {
                         case '1':
-                            new Extractor().DoExtraction(new LPFileExtractor(), FilePath, Percentage);
+                            new FileExtractor().GetValuesFallingAboveBelowMedianPercentage(new LpFileModel(), FilePath, Percentage);
                             break;
                         case '2':
-                            new Extractor().DoExtraction(new TOUFileExtractor(), FilePath, Percentage);
+                            new FileExtractor().GetValuesFallingAboveBelowMedianPercentage(new TouFileModel(), FilePath, Percentage);
                             break;
                         case '3':
                         {
-                            new Extractor().DoExtraction(new LPFileExtractor(), FilePath, Percentage);
-                            new Extractor().DoExtraction(new TOUFileExtractor(), FilePath, Percentage);
+                            new FileExtractor().GetValuesFallingAboveBelowMedianPercentage(new LpFileModel(), FilePath, Percentage);
+                            new FileExtractor().GetValuesFallingAboveBelowMedianPercentage(new TouFileModel(), FilePath, Percentage);
                             break;
 
                         }
@@ -77,15 +77,8 @@ namespace ERM.CSV.Extractor
             catch (Exception ex)
             {
                 ConsolePrinter.RoutineTryCatchLog(ex);
+                throw;
             }
-        }
-
-      
-
-        private static string ReadParamaeters(string promptMessage)
-        {
-            Console.Write(promptMessage);
-            return Console.ReadLine();
         }
 
     }

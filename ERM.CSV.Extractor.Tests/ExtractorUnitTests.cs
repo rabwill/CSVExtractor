@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ERM.CSV.Extractor.Classes;
+using ERM.CSV.Extractor.Extensions;
 using ERM.CSV.Extractor.Tests.Classes;
 using ERM.CSV.Extractor.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -63,7 +64,7 @@ namespace ERM.CSV.Extractor.Tests
 
             List<double> listvalues = values.Select(i => Convert.ToDouble(i)).ToList();
             var median = listvalues.GetMedian();
-            var percentofMedian = MathHelper.GetPercentofValue(median, 20);
+            var percentofMedian = MathHelper.CalculatePercentageValue(median, 20);
             var above = Math.Round((percentofMedian + median), 3);
             Assert.AreEqual(2.5, median);
             Assert.AreEqual(above,3);
@@ -77,7 +78,7 @@ namespace ERM.CSV.Extractor.Tests
 
             List<double> listvalues = values.Select(i => Convert.ToDouble(i)).ToList();
             var median = listvalues.GetMedian();
-            var percentofMedian = MathHelper.GetPercentofValue(median, 20);
+            var percentofMedian = MathHelper.CalculatePercentageValue(median, 20);
             var above = Math.Round((median - percentofMedian), 3);
             Assert.AreEqual(2.5, median);
             Assert.AreEqual(above, 2);

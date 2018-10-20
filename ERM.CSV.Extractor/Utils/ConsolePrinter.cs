@@ -6,12 +6,13 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ERM.CSV.Extractor.Classes;
 
 namespace ERM.CSV.Extractor.Utils
 {
     class ConsolePrinter
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+      
         /// <summary>
         /// Prints messages to console window from a list of messages
         /// </summary>
@@ -47,8 +48,9 @@ namespace ERM.CSV.Extractor.Utils
         internal static void RoutineTryCatchLog(Exception ex)
         {
             PrintError(ex.Message);
-            Log.Error($"There has been an issue in {MethodBase.GetCurrentMethod()}- {ex.Message}");
+            LoggerHelper.LogError($"There has been an issue in {MethodBase.GetCurrentMethod()}- {ex.Message}");
             Console.ReadKey();
         }
+        
     }
 }

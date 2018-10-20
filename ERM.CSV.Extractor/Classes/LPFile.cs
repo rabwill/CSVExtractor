@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ERM.CSV.Extractor.Classes
 {
-     class LPFile
+    internal class LPFile
     {
         public double MeterPointCode { get; set; }
         public double SerialNumber { get; set; }
@@ -17,7 +17,24 @@ namespace ERM.CSV.Extractor.Classes
         public string Units { get; set; }
         public string Status { get; set; }
 
-       
+
+        internal static LPFile GetLpFileEntityByCsvDataRow(string csvLine)
+        {
+            string[] values = csvLine.Split(',');
+            var lpfileItem = new LPFile
+            {
+                MeterPointCode = double.Parse(values[0]),
+                SerialNumber = double.Parse(values[1]),
+                PlantCode = Convert.ToString(values[2]),
+                DateAndTime = DateTime.Parse(values[3]),
+                DataType = Convert.ToString(values[4]),
+                DataValue = double.Parse(values[5]),
+                Units = Convert.ToString(values[6]),
+                Status = Convert.ToString(values[7]),
+            };
+            return lpfileItem;
+        }
+
     }
 }
 

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ERM.CSV.Extractor
 {
-    interface IExtractor
+    interface IFileModel
     {
-        void Extract(string _filePath,int _percentage);
+        void ExtractAndProcessFiles(string filePath,int percentage);
     }
 }

@@ -10,17 +10,18 @@ namespace ERM.CSV.Extractor.Utils
     {
         public static T GetMedian<T>(this IEnumerable<T> items)
         {
-            var i = (int)Math.Ceiling((double)(items.Count() - 1) / 2);
+            var enumerable = items.ToList();
+            var i = (int)Math.Ceiling((double)(enumerable.Count() - 1) / 2);
             if (i >= 0)
             {
-                var values = items.ToList();
+                var values = enumerable.ToList();
                 values.Sort();
                 return values[i];
             }
             return default(T);
         }
 
-        public static double GetPercentofValue(double value,int percentage)
+        public static double CalculatePercentageValue(double value,int percentage)
         {
             double divideByHundred = value / 100;
                 return (divideByHundred * percentage);
